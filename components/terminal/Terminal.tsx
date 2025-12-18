@@ -21,7 +21,7 @@ const Terminal = () => {
   const inputRef = useRef(null);
   const terminalRef = useRef(null);
 
-  // ASCII Art for header
+  // ASCII Art for header - Desktop version
   const asciiArt = `
   ░█████╗░██████╗░██████╗░██╗░░░██╗██╗░░░░░  ░█████╗░███████╗██╗███████╗
   ██╔══██╗██╔══██╗██╔══██╗██║░░░██║██║░░░░░  ██╔══██╗╚════██║██║╚════██║
@@ -29,6 +29,21 @@ const Terminal = () => {
   ██╔══██║██╔══██╗██║░░██║██║░░░██║██║░░░░░  ██╔══██║██╔══╝░░██║██╔══╝░░
   ██║░░██║██████╦╝██████╔╝╚██████╔╝███████╗  ██║░░██║███████╗██║███████╗
   ╚═╝░░╚═╝╚═════╝░╚═════╝░░╚═════╝░╚══════╝  ╚═╝░░╚═╝╚══════╝╚═╝╚══════╝`;
+
+  // Mobile-friendly ASCII Art
+  const mobileAsciiArt = `
+   █████╗ ██████╗ ██████╗ ██╗   ██╗██╗     
+  ██╔══██╗██╔══██╗██╔══██╗██║   ██║██║     
+  ███████║██████╔╝██║  ██║██║   ██║██║     
+  ██╔══██║██╔══██╗██║  ██║██║   ██║██║     
+  ██║  ██║██████╔╝██████╔╝╚██████╔╝███████╗
+  ╚═╝  ╚═╝╚═════╝ ╚═════╝  ╚═════╝ ╚══════╝
+         █████╗ ███████╗██╗███████╗        
+        ██╔══██╗╚════██║██║╚════██║        
+        ███████║  ███╔═╝██║  ███╔═╝        
+        ██╔══██║ ██╔══╝ ██║ ██╔══╝         
+        ██║  ██║ ███████╗██║ ███████╗       
+        ╚═╝  ╚═╝ ╚══════╝╚═╝ ╚══════╝       `;
 
   const welcomeMessage = [
     "",
@@ -83,14 +98,15 @@ const Terminal = () => {
   const colors = getThemeColors();
 
   useEffect(() => {
-
-
+    // Detect mobile screen size
+    const isMobile = window.innerWidth < 768;
+    const artToUse = isMobile ? mobileAsciiArt : asciiArt;
 
     // Initialize with welcome message
     setHistory([
       {
         type: 'ascii',
-        content: asciiArt,
+        content: artToUse,
         timestamp: new Date().toLocaleTimeString()
       },
       ...welcomeMessage.map(line => ({
@@ -104,6 +120,7 @@ const Terminal = () => {
     if (inputRef.current) {
       inputRef.current.focus();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -139,16 +156,29 @@ const Terminal = () => {
       if (commandStr.toLowerCase().trim() === 'exit' || commandStr.toLowerCase().trim() === 'quit') {
         setIsChatMode(false);
 
-        // Handle exit with async function
+        // Handle exit with async function and thinking delay
         setIsTyping(true);
+        const minThinkingTime = 1000; // 1 second for exit
+        const startTime = Date.now();
+
         handleChatCommand(commandStr).then(response => {
-          addToHistory('chat', response);
-          setIsTyping(false);
+          const elapsed = Date.now() - startTime;
+          const remainingDelay = Math.max(0, minThinkingTime - elapsed);
+
+          setTimeout(() => {
+            addToHistory('chat', response);
+            setIsTyping(false);
+          }, remainingDelay);
         }).catch(() => {
+          const elapsed = Date.now() - startTime;
+          const remainingDelay = Math.max(0, minThinkingTime - elapsed);
+
           // Fallback to sync version
-          const response = handleChatCommandSync(commandStr);
-          addToHistory('chat', response);
-          setIsTyping(false);
+          setTimeout(() => {
+            const response = handleChatCommandSync(commandStr);
+            addToHistory('chat', response);
+            setIsTyping(false);
+          }, remainingDelay);
         });
         return;
       }
@@ -156,17 +186,32 @@ const Terminal = () => {
       // Process chat message with Gemini API
       setIsTyping(true);
 
+      // Add minimum delay to show thinking animation
+      const minThinkingTime = 1500; // 1.5 seconds minimum thinking time
+      const startTime = Date.now();
+
       handleChatCommand(commandStr)
         .then(response => {
-          addToHistory('chat', response);
-          setIsTyping(false);
+          const elapsed = Date.now() - startTime;
+          const remainingDelay = Math.max(0, minThinkingTime - elapsed);
+
+          // Wait for remaining time before showing response
+          setTimeout(() => {
+            addToHistory('chat', response);
+            setIsTyping(false);
+          }, remainingDelay);
         })
         .catch(error => {
           console.error('Chat error:', error);
-          // Fallback to sync version
-          const response = handleChatCommandSync(commandStr);
-          addToHistory('chat', response);
-          setIsTyping(false);
+          const elapsed = Date.now() - startTime;
+          const remainingDelay = Math.max(0, minThinkingTime - elapsed);
+
+          // Fallback to sync version with same delay
+          setTimeout(() => {
+            const response = handleChatCommandSync(commandStr);
+            addToHistory('chat', response);
+            setIsTyping(false);
+          }, remainingDelay);
         });
       return;
     }
@@ -189,7 +234,7 @@ const Terminal = () => {
   chat               - Start AI conversation with Abdul's assistant
   clear              - Clear terminal screen
   
-🎯 Advanced Usage:
+Advanced Usage:
   skills --backend       - Backend technologies and proficiency
   skills --frontend      - Frontend development skills
   skills --ai            - AI/ML technologies and tools
@@ -209,16 +254,16 @@ const Terminal = () => {
   resume --stats         - Resume statistics
   resume --help          - Resume command help
   
-🤖 NEW: AI Chat Assistant
+AI Chat Assistant:
   chat                   - Start interactive conversation
   (In chat mode, ask natural questions about Abdul's background)
   
-💡 Pro Tips:
+Pro Tips:
   • Use arrow keys to navigate command history
   • Add --help to any command for detailed usage
   • Commands are case-insensitive
   
-🚀 Try: skills --backend, projects --client, resume --download, or chat`;
+Try: skills --backend, projects --client, resume --download, or chat`;
           break;
 
         case 'clear':
@@ -231,36 +276,36 @@ const Terminal = () => {
           break;
 
         case 'about':
-          response = `👨‍💻 Abdul Aziz - Senior Software Engineer & Team Lead
+          response = `Abdul Aziz - Senior Software Engineer & Team Lead
 
-🎓 Education: BS Computer Science from PUCIT (Punjab University Lahore)
-📍 Location: Lahore, Punjab, Pakistan
-💼 Currently: Leading development teams at Developer Tag & DiveScale
+Education: BS Computer Science from PUCIT (Punjab University Lahore)
+Location: Lahore, Punjab, Pakistan
+Currently: Leading development teams at Developer Tag & DiveScale
 
-🚀 EXPERTISE OVERVIEW:
+EXPERTISE OVERVIEW:
 ─────────────────────────────────────────────────────────────
-🔧 Full Stack Development    🤖 AI/LLM Integration
+Full Stack Development       AI/LLM Integration
    • MERN Stack (Expert)        • LangChain & LangGraph
    • Next.js (Advanced)         • OpenAI API Integration
    • TypeScript/JavaScript      • RAGs & Vector Databases
    • State Management           • Prompt Engineering
 
-☁️  DevOps & Cloud           🛡️  Backend Architecture
+DevOps & Cloud               Backend Architecture
    • AWS & Railway              • WebSockets & Real-time
    • Docker Containerization    • MongoDB Aggregation
    • CI/CD Pipelines            • Query Optimization
    • Payment Integrations       • RBAC & Permissions
 
-🌟 NOTABLE ACHIEVEMENTS:
+NOTABLE ACHIEVEMENTS:
 • Built production apps: sellrgrid.com, proteinwriter.com, nordsecpro.com
 • Strong problem-solving skills with n+ client projects delivered
 • Team leadership experience with mentoring capabilities
 • Advanced MongoDB pipeline optimization and lookup queries
 
-🔗 CONNECT WITH ME:
+CONNECT WITH ME:
 All social platforms: @connect2abdulaziz (GitHub, LinkedIn, LeetCode, etc.)
 
-💡 Use 'skills', 'experience', 'projects' commands or 'chat' for AI conversation!`;
+Use 'skills', 'experience', 'projects' commands or 'chat' for AI conversation!`;
           break;
 
         case 'skills':
@@ -423,10 +468,11 @@ Use the theme toggle button to switch themes.`;
   };
 
   const getPlaceholder = () => {
+    const isMobile = window.innerWidth < 640;
     if (isChatMode) {
-      return "Ask me anything about Abdul... (type 'exit' to leave chat)";
+      return isMobile ? "Ask anything..." : "Ask me anything about Abdul... (type 'exit' to leave chat)";
     }
-    return "Type a command...";
+    return isMobile ? "Type command..." : "Type a command...";
   };
 
   return (
@@ -436,15 +482,15 @@ Use the theme toggle button to switch themes.`;
         }`}>
         <div className="flex items-center space-x-2">
           <div className="flex space-x-1">
-            <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-            <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-red-500 rounded-full"></div>
+            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-yellow-500 rounded-full"></div>
+            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full"></div>
           </div>
-          <span className={`text-sm ml-3 ${theme === 'light' ? 'text-gray-700' : 'text-gray-300'}`}>
-            Abdul Aziz - Terminal Portfolio {isChatMode && "🤖 (Chat Mode)"}
+          <span className={`text-xs sm:text-sm ml-2 sm:ml-3 ${theme === 'light' ? 'text-gray-700' : 'text-gray-300'} truncate`}>
+            Abdul Aziz {isChatMode && "[CHAT]"}
           </span>
         </div>
-        <div className={`text-xs ${theme === 'light' ? 'text-gray-500' : 'text-gray-400'}`}>
+        <div className={`text-[0.6rem] sm:text-xs ${theme === 'light' ? 'text-gray-500' : 'text-gray-400'} hidden sm:block`}>
           connect2abdulaziz@terminal:~
         </div>
       </div>
@@ -453,7 +499,7 @@ Use the theme toggle button to switch themes.`;
       <div
         ref={terminalRef}
         onClick={handleTerminalClick}
-        className={`h-screen overflow-y-auto p-4 cursor-text ${colors.terminalBg} ${theme === 'light' ? 'shadow-inner' : ''
+        className={`h-screen overflow-y-auto p-2 sm:p-4 cursor-text ${colors.terminalBg} ${theme === 'light' ? 'shadow-inner' : ''
           }`}
         style={{ height: 'calc(100vh - 40px)' }}
       >
@@ -467,31 +513,31 @@ Use the theme toggle button to switch themes.`;
             className="mb-1"
           >
             {entry.type === 'ascii' && (
-              <pre className={`${colors.ascii} text-xs leading-tight mb-4 overflow-x-auto ${theme === 'light' ? 'font-bold' : ''
+              <pre className={`${colors.ascii} text-[0.5rem] sm:text-xs md:text-sm leading-tight mb-4 overflow-x-auto whitespace-pre ${theme === 'light' ? 'font-bold' : ''
                 }`}>
                 {entry.content}
               </pre>
             )}
 
             {entry.type === 'system' && (
-              <div className={colors.secondary}>
+              <div className={`${colors.secondary} text-xs sm:text-sm md:text-base`}>
                 {entry.content}
               </div>
             )}
 
             {entry.type === 'command' && (
               <div className="flex items-center">
-                <span className={`mr-2 ${isChatMode ? colors.chatPrompt : colors.prompt}`}>
+                <span className={`mr-1 sm:mr-2 text-xs sm:text-base ${isChatMode ? colors.chatPrompt : colors.prompt}`}>
                   {getPrompt()}
                 </span>
-                <span className={theme === 'light' ? 'text-gray-900 font-medium' : 'text-white'}>
+                <span className={`text-xs sm:text-base ${theme === 'light' ? 'text-gray-900 font-medium' : 'text-white'}`}>
                   {entry.content}
                 </span>
               </div>
             )}
 
             {entry.type === 'response' && (
-              <pre className={`${colors.accent} whitespace-pre-wrap ml-0 mt-1 mb-2 ${theme === 'light' ? 'font-medium' : ''
+              <pre className={`${colors.accent} whitespace-pre-wrap ml-0 mt-1 mb-2 text-xs sm:text-sm md:text-base ${theme === 'light' ? 'font-medium' : ''
                 }`}>
                 {entry.content}
               </pre>
@@ -499,9 +545,9 @@ Use the theme toggle button to switch themes.`;
 
             {entry.type === 'chat' && (
               <div className="ml-0 mt-1 mb-2">
-                <div className="flex items-start space-x-2">
-                  <span className={colors.info}>🤖</span>
-                  <pre className={`${colors.info} whitespace-pre-wrap flex-1 ${theme === 'light' ? 'font-medium' : ''
+                <div className="flex items-start space-x-1 sm:space-x-2">
+                  <span className={`${colors.info} text-xs sm:text-base font-bold`}>[AI]</span>
+                  <pre className={`${colors.info} whitespace-pre-wrap flex-1 text-xs sm:text-sm md:text-base ${theme === 'light' ? 'font-medium' : ''
                     }`}>
                     {entry.content}
                   </pre>
@@ -516,26 +562,26 @@ Use the theme toggle button to switch themes.`;
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className={`flex items-center ${colors.warning}`}
+            className={`flex items-center ${colors.warning} text-xs sm:text-sm`}
           >
             <span className="mr-2">
-              {isChatMode ? "🤖 AI is thinking..." : "Processing..."}
+              {isChatMode ? "Thinking..." : "Processing..."}
             </span>
             <div className="flex space-x-1">
               <motion.div
                 animate={{ opacity: [0, 1, 0] }}
                 transition={{ duration: 0.6, repeat: Infinity, delay: 0 }}
-                className={`w-1 h-1 rounded-full ${theme === 'light' ? 'bg-orange-500' : 'bg-yellow-400'}`}
+                className={`w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full ${theme === 'light' ? 'bg-orange-500' : 'bg-yellow-400'}`}
               />
               <motion.div
                 animate={{ opacity: [0, 1, 0] }}
                 transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
-                className={`w-1 h-1 rounded-full ${theme === 'light' ? 'bg-orange-500' : 'bg-yellow-400'}`}
+                className={`w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full ${theme === 'light' ? 'bg-orange-500' : 'bg-yellow-400'}`}
               />
               <motion.div
                 animate={{ opacity: [0, 1, 0] }}
                 transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}
-                className={`w-1 h-1 rounded-full ${theme === 'light' ? 'bg-orange-500' : 'bg-yellow-400'}`}
+                className={`w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full ${theme === 'light' ? 'bg-orange-500' : 'bg-yellow-400'}`}
               />
             </div>
           </motion.div>
@@ -543,7 +589,7 @@ Use the theme toggle button to switch themes.`;
 
         {/* Current Input Line */}
         <div className="flex items-center">
-          <span className={`mr-2 font-bold ${isChatMode ? colors.chatPrompt : colors.prompt}`}>
+          <span className={`mr-1 sm:mr-2 font-bold text-xs sm:text-base ${isChatMode ? colors.chatPrompt : colors.prompt}`}>
             {getPrompt()}
           </span>
           <input
@@ -552,7 +598,7 @@ Use the theme toggle button to switch themes.`;
             value={input}
             onChange={handleInputChange}
             onKeyDown={handleKeyPress}
-            className={`bg-transparent border-none outline-none flex-1 font-mono ${theme === 'light' ? 'text-gray-900 placeholder-gray-500' : 'text-white placeholder-gray-400'
+            className={`bg-transparent border-none outline-none flex-1 font-mono text-xs sm:text-base ${theme === 'light' ? 'text-gray-900 placeholder-gray-500' : 'text-white placeholder-gray-400'
               }`}
             placeholder={getPlaceholder()}
             autoComplete="off"
@@ -561,7 +607,7 @@ Use the theme toggle button to switch themes.`;
           <motion.span
             animate={{ opacity: [0, 1, 0] }}
             transition={{ duration: 1, repeat: Infinity }}
-            className={`ml-1 ${isChatMode ? colors.chatPrompt : colors.cursor}`}
+            className={`ml-1 text-xs sm:text-base ${isChatMode ? colors.chatPrompt : colors.cursor}`}
           >
             ▓
           </motion.span>
