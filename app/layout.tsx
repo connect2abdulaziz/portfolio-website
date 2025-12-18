@@ -1,25 +1,32 @@
 import "./globals.css";
-import { Inter, Poppins } from "next/font/google";
+import { Syne, Inter, Source_Code_Pro } from "next/font/google";
 
 
-// Font setup
-const inter = Inter({ 
+// Font setup - Syne as primary font
+const syne = Syne({
+  variable: "--font-syne",
   subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap"
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
 });
 
-const poppins = Poppins({ 
-  weight: ["400", "500", "600", "700"],
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  variable: "--font-poppins",
-  display: "swap"
+  display: "swap",
+});
+
+const sourceCodePro = Source_Code_Pro({
+  variable: "--font-source-code-pro",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 export const metadata = {
-  title: "Abdul Aziz | Full Stack Developer Portfolio",
-  description: "Abdul Aziz is a full-stack developer specializing in MERN stack, Next.js and Nest.js with 1+ years of professional experience.",
-  keywords: ["developer", "portfolio", "full stack", "MERN", "react", "next.js", "nest.js"],
+  title: "Abdul Aziz | Tech Lead / Senior Backend Engineer",
+  description: "Abdul Aziz is a Tech Lead / Senior Backend Engineer specializing in NestJS, PostgreSQL, AI/ML Integration, and scalable microservices architecture.",
+  keywords: ["backend engineer", "tech lead", "NestJS", "PostgreSQL", "microservices", "AI integration", "real-time systems"],
 };
 
 export default function RootLayout({
@@ -28,8 +35,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`!scroll-smooth ${inter.variable} ${poppins.variable}`}>
-      <body className={`${inter.className} relative bg-gradient-to-b from-white via-gray-50 to-white dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 text-gray-800 dark:text-gray-200 transition-colors duration-300`}>
+    <html lang="en" className={`!scroll-smooth ${syne.variable} ${inter.variable} ${sourceCodePro.variable}`}>
+      <body className={`${syne.className} relative bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300`}>
         {children}
       </body>
     </html>

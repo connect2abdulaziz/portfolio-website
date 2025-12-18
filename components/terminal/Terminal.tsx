@@ -50,14 +50,14 @@ const Terminal = () => {
         border: 'border-gray-300',
         headerBg: 'bg-gray-100',
         text: 'text-gray-800',
-        accent: 'text-blue-600',
+        accent: 'text-[#016782]',
         secondary: 'text-gray-600',
         success: 'text-green-600',
-        info: 'text-blue-500',
+        info: 'text-[#016782]',
         warning: 'text-orange-500',
-        prompt: 'text-blue-600',
-        chatPrompt: 'text-purple-600',
-        cursor: 'text-blue-600',
+        prompt: 'text-[#016782]',
+        chatPrompt: 'text-[#016782]',
+        cursor: 'text-[#016782]',
         ascii: 'text-gray-700'
       };
     } else {
@@ -70,10 +70,10 @@ const Terminal = () => {
         accent: 'text-green-300',
         secondary: 'text-cyan-400',
         success: 'text-green-400',
-        info: 'text-blue-300',
+        info: 'text-[#016782]',
         warning: 'text-yellow-400',
         prompt: 'text-green-400',
-        chatPrompt: 'text-blue-400',
+        chatPrompt: 'text-[#016782]',
         cursor: 'text-green-400',
         ascii: 'text-green-300'
       };

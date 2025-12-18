@@ -33,7 +33,7 @@ export default function ProjectDetail({ params }: { params: { id: string } }) {
           {project.tags.map((tag, index) => (
             <li
               key={index}
-              className="bg-gray-800 text-white text-xs px-3 py-1 rounded-full"
+              className="bg-[#016782]/10 text-[#016782] dark:bg-[#016782]/20 dark:text-white border border-[#016782]/30 text-xs px-3 py-1 rounded-full"
             >
               {tag}
             </li>
@@ -47,7 +47,7 @@ export default function ProjectDetail({ params }: { params: { id: string } }) {
             href={project.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center text-sm text-white bg-black px-4 py-2 rounded-md"
+            className="inline-flex items-center text-sm text-white hover:text-white bg-[#016782] hover:bg-[#014d5f] px-4 py-2 rounded-md transition-colors"
           >
             <FaGithub className="mr-2" />
             View Code
@@ -58,7 +58,7 @@ export default function ProjectDetail({ params }: { params: { id: string } }) {
             href={project.liveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center text-sm text-white bg-blue-600 px-4 py-2 rounded-md"
+            className="inline-flex items-center text-sm text-white hover:text-white bg-[#016782] hover:bg-[#014d5f] px-4 py-2 rounded-md transition-colors"
           >
             <FaExternalLinkAlt className="mr-2" />
             View Live

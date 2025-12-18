@@ -125,7 +125,7 @@ export default function ChatWidget({ isOpen, onToggle }: ChatWidgetProps) {
           className="fixed  bottom-4 right-4 z-50 w-80 h-[calc(100vh-100px)] bg-white dark:bg-gray-900 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden flex flex-col"
         >
           {/* Chat Widget Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-4 flex items-center justify-between">
+          <div className="bg-[#016782] p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="relative">
                 <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
@@ -135,7 +135,7 @@ export default function ChatWidget({ isOpen, onToggle }: ChatWidgetProps) {
               </div>
               <div>
                 <h3 className="text-white font-semibold text-sm">AI Assistant</h3>
-                <p className="text-blue-100 text-xs">Ask me about Abdul</p>
+                <p className="text-white/80 text-xs">Ask me about Abdul</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -169,15 +169,15 @@ export default function ChatWidget({ isOpen, onToggle }: ChatWidgetProps) {
                 <div
                   className={`max-w-[80%] rounded-lg p-3 text-sm ${
                     message.type === 'user'
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-[#016782] text-white'
                       : message.type === 'ai'
-                      ? 'bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-600'
-                      : 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 border border-green-200 dark:border-green-700'
+                      ? 'bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-[#016782]/30'
+                      : 'bg-[#016782]/10 text-[#016782] dark:text-white border border-[#016782]/30'
                   }`}
                 >
                   {message.type === 'ai' && (
                     <div className="flex items-center gap-2 mb-2">
-                      <div className="w-5 h-5 bg-blue-600 rounded-full flex items-center justify-center">
+                      <div className="w-5 h-5 bg-[#016782] rounded-full flex items-center justify-center">
                         <span className="text-white text-xs">🤖</span>
                       </div>
                       <span className="text-xs text-gray-500 dark:text-gray-400">AI Assistant</span>
@@ -200,25 +200,25 @@ export default function ChatWidget({ isOpen, onToggle }: ChatWidgetProps) {
                 animate={{ opacity: 1, y: 0 }}
                 className="flex justify-start"
               >
-                <div className="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-3 flex items-center gap-2">
-                  <div className="w-5 h-5 bg-blue-600 rounded-full flex items-center justify-center">
+                <div className="bg-white dark:bg-gray-700 border border-[#016782]/30 rounded-lg p-3 flex items-center gap-2">
+                  <div className="w-5 h-5 bg-[#016782] rounded-full flex items-center justify-center">
                     <span className="text-white text-xs">🤖</span>
                   </div>
                   <div className="flex space-x-1">
                     <motion.div
                       animate={{ opacity: [0.3, 1, 0.3] }}
                       transition={{ duration: 1, repeat: Infinity, delay: 0 }}
-                      className="w-1.5 h-1.5 bg-gray-400 rounded-full"
+                      className="w-1.5 h-1.5 bg-[#016782] rounded-full"
                     />
                     <motion.div
                       animate={{ opacity: [0.3, 1, 0.3] }}
                       transition={{ duration: 1, repeat: Infinity, delay: 0.2 }}
-                      className="w-1.5 h-1.5 bg-gray-400 rounded-full"
+                      className="w-1.5 h-1.5 bg-[#016782] rounded-full"
                     />
                     <motion.div
                       animate={{ opacity: [0.3, 1, 0.3] }}
                       transition={{ duration: 1, repeat: Infinity, delay: 0.4 }}
-                      className="w-1.5 h-1.5 bg-gray-400 rounded-full"
+                      className="w-1.5 h-1.5 bg-[#016782] rounded-full"
                     />
                   </div>
                 </div>
@@ -240,7 +240,7 @@ export default function ChatWidget({ isOpen, onToggle }: ChatWidgetProps) {
                       setInput(suggestion);
                       setTimeout(handleSendMessage, 100);
                     }}
-                    className="text-xs px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
+                    className="text-xs px-2 py-1 bg-[#016782]/10 dark:bg-[#016782]/20 text-[#016782] rounded-full hover:bg-[#016782]/20 dark:hover:bg-[#016782]/30 transition-colors"
                   >
                     {suggestion}
                   </button>
@@ -259,13 +259,13 @@ export default function ChatWidget({ isOpen, onToggle }: ChatWidgetProps) {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Ask me anything about Abdul..."
-                className="flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                className="flex-1 px-3 py-2 text-sm border border-[#016782]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#016782]/40 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                 disabled={isTyping}
               />
               <button
                 onClick={handleSendMessage}
                 disabled={!input.trim() || isTyping}
-                className="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="p-2 bg-[#016782] text-white hover:text-white rounded-lg hover:bg-[#014d5f] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 <Send size={16} />
               </button>

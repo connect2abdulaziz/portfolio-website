@@ -36,19 +36,19 @@ export default function Experience() {
   // Check if an item is expanded
   const isExpanded = (index: number) => expandedItems.includes(index);
 
-  // Get icon based on job type
+  // Get icon based on job type - Simplified to theme color
   const getTypeIcon = (type: string) => {
     switch (type?.toLowerCase()) {
       case 'internship':
-        return <FaGraduationCap className="text-amber-500" />;
+        return <FaGraduationCap className="text-[#016782]" />;
       case 'education':
-        return <MdSchool className="text-blue-500" />;
+        return <MdSchool className="text-[#016782]" />;
       case 'fulltime':
-        return <MdWork className="text-green-500" />;
+        return <MdWork className="text-[#016782]" />;
       case 'parttime':
-        return <FaUserTie className="text-purple-500" />;
+        return <FaUserTie className="text-[#016782]" />;
       default:
-        return <FaBriefcase className="text-gray-500" />;
+        return <FaBriefcase className="text-[#016782]" />;
     }
   };
 
@@ -80,37 +80,13 @@ export default function Experience() {
     }
   };
 
-  // Get gradient colors for timeline items
-  const getGradientColors = (item: any) => {
-    const typeColorMap = {
-      fulltime: { 
-        light: "from-green-50 to-teal-50", 
-        dark: "from-green-950/10 to-teal-950/10", 
-        accent: "bg-green-500" 
-      },
-      parttime: { 
-        light: "from-purple-50 to-violet-50", 
-        dark: "from-purple-950/10 to-violet-950/10", 
-        accent: "bg-purple-500" 
-      },
-      education: { 
-        light: "from-blue-50 to-indigo-50", 
-        dark: "from-blue-950/10 to-indigo-950/10", 
-        accent: "bg-blue-500" 
-      },
-      internship: { 
-        light: "from-amber-50 to-orange-50", 
-        dark: "from-amber-950/10 to-orange-950/10", 
-        accent: "bg-amber-500" 
-      },
-      default: { 
-        light: "from-gray-50 to-slate-50", 
-        dark: "from-gray-900/30 to-slate-900/30", 
-        accent: "bg-gray-500" 
-      }
+  // Simplified color scheme - Single theme color
+  const getGradientColors = () => {
+    return { 
+      light: "bg-white", 
+      dark: "bg-gray-800", 
+      accent: "bg-[#016782]" 
     };
-    
-    return typeColorMap[item.type?.toLowerCase()] || typeColorMap.default;
   };
 
   // Helper to check if a description should be truncated
@@ -119,8 +95,8 @@ export default function Experience() {
   };
 
   return (
-    <section id="experience" ref={ref} className="scroll-mt-28 mb-28 sm:mb-40 px-4">
-      <div className="max-w-6xl mx-auto">
+    <section id="experience" ref={ref} className="scroll-mt-28 mb-28 sm:mb-40 w-full px-4">
+      <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -131,29 +107,27 @@ export default function Experience() {
             My professional journey and career milestones that have shaped my expertise across full-stack development, AI & ML, and leadership roles.
           </p>
           
-          {/* Filter tabs */}
+          {/* Filter tabs - Simplified */}
           <div className="flex flex-wrap justify-center gap-2 mb-10">
             {expTypes.map((type, index) => (
-              <motion.button
+              <button
                 key={index}
                 onClick={() => setActiveFilter(type)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300
                   ${activeFilter === type 
-                    ? 'bg-blue-600 text-white shadow-md' 
+                    ? 'bg-[#016782] text-white shadow-md' 
                     : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
                   }`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
               >
                 {type}
-              </motion.button>
+              </button>
             ))}
           </div>
         </motion.div>
 
         <div className="relative" ref={timelineRef}>
-          {/* Decorative timeline - Now different for mobile and desktop */}
-          <div className="absolute md:left-1/2 left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 via-purple-500 to-pink-500 transform md:-translate-x-1/2 -z-10 opacity-30 rounded-full"></div>
+          {/* Decorative timeline - Simplified */}
+          <div className="absolute md:left-1/2 left-4 top-0 bottom-0 w-0.5 bg-[#016782]/30 transform md:-translate-x-1/2 -z-10 rounded-full"></div>
           
           <motion.div 
             variants={containerVariants}
@@ -162,7 +136,7 @@ export default function Experience() {
             className="space-y-12"
           >
             {filteredExperiences.map((item, index) => {
-              const gradientColors = getGradientColors(item);
+              const gradientColors = getGradientColors();
               
               return (
                 <motion.div
@@ -186,18 +160,17 @@ export default function Experience() {
                   </div>
                   
                   {/* Date bubble - repositioned for mobile */}
-                  <div className={`absolute md:left-1/2 left-4 top-8 transform md:-translate-x-1/2 -translate-x-1/2 -translate-y-1/2 ${gradientColors.accent} w-8 h-8 md:w-16 md:h-16 rounded-full flex items-center justify-center text-white text-xs font-semibold z-10 shadow-lg`}>
+                  <div className={`absolute md:left-1/2 left-4 top-8 transform md:-translate-x-1/2 -translate-x-1/2 -translate-y-1/2 ${gradientColors.accent} w-8 h-8 md:w-16 md:h-16 rounded-full flex items-center justify-center text-white text-xs font-semibold z-10 shadow-xl border-4 border-white dark:border-gray-900`}>
                     {item.date?.split(' ')[0] || '2023'}
                   </div>
                   
-                  {/* Content card - adjusted for mobile */}
-                  <motion.div 
-                    className={`relative mt-16 ml-8 md:ml-0 md:mt-4 w-full md:w-[calc(50%-3rem)] bg-gradient-to-br ${
+                  {/* Content card - Simplified */}
+                  <div 
+                    className={`relative mt-16 ml-8 md:ml-0 md:mt-4 w-full md:w-[calc(50%-3rem)] ${
                       theme === "light" 
                         ? gradientColors.light 
                         : gradientColors.dark
-                    } border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300`}
-                    whileHover={{ y: -5 }}
+                    } border-2 border-[#016782]/40 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300`}
                   >
                     {/* Colored top bar */}
                     <div className={`h-1.5 w-full ${gradientColors.accent}`}></div>
@@ -214,16 +187,10 @@ export default function Experience() {
                             <span className="text-sm">{item.location}</span>
                           </div>
                           
-                          {/* Job type tag */}
+                          {/* Job type tag - Simplified */}
                           {item.type && (
                             <div className="mt-2">
-                              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                item.type.toLowerCase() === 'fulltime' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' :
-                                item.type.toLowerCase() === 'parttime' ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300' :
-                                item.type.toLowerCase() === 'education' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300' :
-                                item.type.toLowerCase() === 'internship' ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300' :
-                                'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-300'
-                              }`}>
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#016782]/10 text-[#016782] border border-[#016782]/20">
                                 {item.type.charAt(0).toUpperCase() + item.type.slice(1).toLowerCase()}
                               </span>
                             </div>
@@ -263,7 +230,7 @@ export default function Experience() {
                           <ul className="space-y-1 text-sm text-gray-700 dark:text-gray-300">
                             {item.details.map((detail, detailIndex) => (
                               <li key={detailIndex} className="flex items-start">
-                                <span className="text-blue-500 dark:text-blue-400 mr-2 mt-1">•</span>
+                                <span className="text-[#016782] mr-2 mt-1">•</span>
                                 <span>{detail}</span>
                               </li>
                             ))}
@@ -271,15 +238,15 @@ export default function Experience() {
                         </motion.div>
                       )}
                       
-                      {/* Skills or technologies used */}
+                      {/* Skills or technologies used - Simplified */}
                       {item.skills && (
-                        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                        <div className="mt-4 pt-4 border-t border-[#016782]/20">
                           <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Skills & Technologies:</p>
                           <div className="flex flex-wrap gap-2">
                             {item.skills.map((skill, skillIndex) => (
                               <span 
                                 key={skillIndex}
-                                className={`px-2.5 py-1 text-xs font-medium rounded-full ${theme === "light" ? "bg-white/80" : "bg-gray-800/80"} backdrop-blur-sm border border-gray-200 dark:border-gray-700 shadow-sm`}
+                                className="px-2.5 py-1 text-xs font-medium rounded-full bg-[#016782]/10 text-[#016782] border border-[#016782]/20"
                               >
                                 {skill}
                               </span>
@@ -288,19 +255,19 @@ export default function Experience() {
                         </div>
                       )}
                       
-                      {/* Link if available */}
+                      {/* Link if available - Simplified */}
                       {item.link && (
                         <a 
                           href={item.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="mt-4 inline-flex items-center text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
+                          className="mt-4 inline-flex items-center text-sm font-medium text-[#016782] hover:text-[#015165] transition-colors"
                         >
                           Visit project <FaExternalLinkAlt className="ml-1 text-xs" />
                         </a>
                       )}
                     </div>
-                  </motion.div>
+                  </div>
                 </motion.div>
               );
             })}

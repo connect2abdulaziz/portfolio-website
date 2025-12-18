@@ -1,188 +1,160 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
+import Link from "next/link";
 import { 
   FaLinkedin, 
   FaGithub, 
   FaEnvelope, 
   FaTwitter, 
   FaHeart, 
-  FaCode,
-  FaReact, 
-  FaNodeJs,
-  FaArrowUp
+  FaMapMarkerAlt,
+  FaFileDownload
 } from "react-icons/fa";
-import { TbBrandNextjs, TbBrandTypescript } from "react-icons/tb";
-import { SiTailwindcss, SiJavascript } from "react-icons/si";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 export default function Footer() {
-  const [hoveredTech, setHoveredTech] = useState(null);
-  const [showScrollTop, setShowScrollTop] = useState(false);
-  
-  // Handle scroll to top button visibility
-  React.useEffect(() => {
-    const handleScroll = () => setShowScrollTop(window.scrollY > 300);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-  
-  // Scroll to top function
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
-  
-  // Tech stack with icons and names
-  const techStack = [
-    { name: "React", icon: <FaReact className="text-blue-400" /> },
-    { name: "Next.js", icon: <TbBrandNextjs className="text-gray-700 dark:text-gray-200 " /> },
-    { name: "TypeScript", icon: <TbBrandTypescript className="text-blue-600" /> },
-    { name: "JavaScript", icon: <SiJavascript className="text-yellow-400" /> },
-    { name: "Tailwind CSS", icon: <SiTailwindcss className="text-teal-500" /> },
-    { name: "Node.js", icon: <FaNodeJs className="text-green-500" /> },
+  const currentYear = new Date().getFullYear();
+
+  // Quick links
+  const quickLinks = [
+    { name: "Home", href: "#home" },
+    { name: "About", href: "#about" },
+    { name: "Projects", href: "#projects" },
+    { name: "Experience", href: "#experience" },
+    { name: "Skills", href: "#skills" },
+    { name: "Contact", href: "#contact" },
   ];
 
-  // Animation variants
-  const hoverAnimation = {
-    rest: { scale: 1 },
-    hover: { scale: 1.15, y: -5 }
-  };
+  // Social links
+  const socialLinks = [
+    { name: "LinkedIn", icon: <FaLinkedin />, url: "https://linkedin.com/in/connect2abdulaziz", color: "hover:bg-blue-600" },
+    { name: "GitHub", icon: <FaGithub />, url: "https://github.com/connect2abdulaziz", color: "hover:bg-gray-700" },
+    { name: "Twitter", icon: <FaTwitter />, url: "https://twitter.com", color: "hover:bg-blue-400" },
+    { name: "Email", icon: <FaEnvelope />, url: "mailto:connect2abdulaziz@gmail.com", color: "hover:bg-red-500" },
+  ];
+
+  // Stats
+  const stats = [
+    { value: "300+", label: "LeetCode Problems" },
+    { value: "9+", label: "Projects Delivered" },
+    { value: "2+", label: "Years Experience" },
+  ];
   
   return (
-    <footer className="relative pt-16 pb-10 overflow-hidden">
-      {/* Background gradient with wave */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-950"></div>
-        <svg 
-          className="absolute top-0 w-full text-white dark:text-gray-900" 
-          viewBox="0 0 1440 320"
-        >
-          <path 
-            fill="currentColor" 
-            d="M0,64L48,80C96,96,192,128,288,128C384,128,480,96,576,90.7C672,85,768,107,864,144C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
-          ></path>
-        </svg>
-      </div>
+    <footer className="relative pt-20 pb-6 overflow-hidden bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-950">
+      {/* Decorative top border */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#016782] to-transparent"></div>
       
       {/* Main footer content */}
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Profile and Social Links */}
-        <motion.div 
-          className="flex flex-col items-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          {/* Profile section with animated border */}
-          <div className="relative mb-6">
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-blue-500 rounded-full opacity-75 blur"></div>
-            <div className="relative h-20 w-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
-              <span className="text-3xl font-bold text-white">AA</span>
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Top Section - Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+          {/* Column 1 - About/Brand */}
+          <div className="space-y-4">
+            <div className="flex items-center space-x-3">
+              <div className="h-12 w-12 bg-[#016782] rounded-lg flex items-center justify-center shadow-lg">
+                <span className="text-xl font-bold text-white">AA</span>
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white">Abdul Aziz</h3>
+                <p className="text-xs text-[#016782]">Tech Lead</p>
+              </div>
+            </div>
+            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+              Building scalable backend systems, AI integrations, and real-time applications with modern technologies.
+            </p>
+            <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+              <FaMapMarkerAlt className="text-[#016782]" />
+              <span>Lahore, Pakistan</span>
             </div>
           </div>
-          
-          <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-200">Abdul Aziz</h3>
-          <p className="text-gray-600 dark:text-gray-400 mt-1">Full Stack Developer</p>
-          
-          {/* Social links with hover effect */}
-          <div className="flex justify-center space-x-4 mt-6">
-            {[
-              { icon: <FaLinkedin />, url: "https://linkedin.com/in/connect2abdulaziz", color: "bg-blue-500 hover:bg-blue-600" },
-              { icon: <FaGithub />, url: "https://github.com/connect2abdulaziz", color: "bg-gray-700 hover:bg-gray-800 dark:bg-gray-600 dark:hover:bg-gray-700" },
-              { icon: <FaEnvelope />, url: "mailto:connect2abdulaziz@gmail.com", color: "bg-red-500 hover:bg-red-600" },
-              { icon: <FaTwitter />, url: "https://twitter.com", color: "bg-blue-400 hover:bg-blue-500" }
-            ].map((social, index) => (
-              <motion.a
-                key={index}
-                href={social.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`p-3 ${social.color} rounded-full shadow-lg text-white transform transition-all duration-300`}
-                variants={hoverAnimation}
-                initial="rest"
-                whileHover="hover"
-                whileTap={{ scale: 0.95 }}
-              >
-                {social.icon}
-              </motion.a>
-            ))}
+
+          {/* Column 2 - Quick Links */}
+          <div>
+            <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-4 uppercase tracking-wider">Quick Links</h4>
+            <ul className="space-y-3">
+              {quickLinks.map((link, index) => (
+                <li key={index}>
+                  <Link 
+                    href={link.href}
+                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-[#016782] dark:hover:text-[#016782] transition-colors duration-200 flex items-center group"
+                  >
+                    <span className="w-0 group-hover:w-2 h-0.5 bg-[#016782] mr-0 group-hover:mr-2 transition-all duration-200"></span>
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
-        </motion.div>
-        
-        {/* Tech stack display with enhanced animations */}
-        <motion.div 
-          className="mt-12 mb-10"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          <h4 className="text-center text-lg font-medium text-gray-700 dark:text-gray-300 mb-6">
-            <span className="relative">
-              Tech Stack
-              <span className="absolute -bottom-2 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-purple-600"></span>
-            </span>
-          </h4>
-          
-          <div className="flex flex-wrap justify-center gap-5">
-            {techStack.map((tech, index) => (
-              <motion.div
-                key={index}
-                className="relative"
-                onMouseEnter={() => setHoveredTech(index)}
-                onMouseLeave={() => setHoveredTech(null)}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
-              >
-                <motion.div 
-                  className="w-14 h-14 bg-white dark:bg-gray-800 rounded-xl shadow-md flex items-center justify-center cursor-pointer border border-gray-200 dark:border-gray-700"
-                  whileHover={{ scale: 1.15, y: -5 }}
-                >
-                  <div className="text-2xl">
-                    {tech.icon}
+
+          {/* Column 3 - Stats */}
+          <div>
+            <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-4 uppercase tracking-wider">Highlights</h4>
+            <div className="space-y-4">
+              {stats.map((stat, index) => (
+                <div key={index} className="flex items-center space-x-3">
+                  <div className="h-10 w-10 bg-[#016782]/10 rounded-lg flex items-center justify-center">
+                    <span className="text-sm font-bold text-[#016782]">{stat.value}</span>
                   </div>
-                </motion.div>
-                
-                <AnimatePresence>
-                  {hoveredTech === index && (
-                    <motion.div
-                      className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-gray-800 dark:bg-gray-700 text-white text-xs py-1 px-3 rounded-md shadow-lg whitespace-nowrap z-10"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 5 }}
-                    >
-                      {tech.name}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            ))}
+                  <span className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</span>
+                </div>
+              ))}
+            </div>
+            <a
+              href="/CV.pdf"
+              download
+              className="mt-6 inline-flex items-center space-x-2 text-sm text-[#016782] hover:text-[#014d5f] transition-colors duration-200 group"
+            >
+              <FaFileDownload className="group-hover:translate-y-0.5 transition-transform" />
+              <span>Download CV</span>
+            </a>
           </div>
-        </motion.div>
-        
-        {/* Divider with shine effect */}
-        <div className="relative w-full max-w-md mx-auto h-px bg-gradient-to-r from-transparent via-gray-400 dark:via-gray-600 to-transparent my-10 overflow-hidden">
-          <motion.div 
-            className="absolute top-0 left-0 w-20 h-full bg-white opacity-40"
-            animate={{ x: ["-100%", "100%"] }}
-            transition={{ repeat: Infinity, duration: 2, repeatDelay: 2 }}
-          />
+
+          {/* Column 4 - Connect */}
+          <div>
+            <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-4 uppercase tracking-wider">Connect</h4>
+            <div className="space-y-3 mb-6">
+              <a 
+                href="mailto:connect2abdulaziz@gmail.com"
+                className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400 hover:text-[#016782] transition-colors"
+              >
+                <FaEnvelope className="text-[#016782]" />
+                <span>connect2abdulaziz@gmail.com</span>
+              </a>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              {socialLinks.map((social, index) => (
+                <a
+                  key={index}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={social.name}
+                  className={`p-3 bg-gray-200 dark:bg-gray-800 rounded-lg text-gray-700 dark:text-gray-300 hover:text-white ${social.color} transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-1`}
+                >
+                  {social.icon}
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
-        
-        {/* Copyright section */}
-        <div className="text-center">
-          <p className="flex items-center justify-center text-gray-600 dark:text-gray-400">
-            <span>Made with</span>
+
+        {/* Divider */}
+        <div className="h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-700 to-transparent mb-8"></div>
+
+        {/* Bottom Section - Copyright */}
+        <div className="flex items-center justify-center">
+          <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+            <span>© {currentYear} Abdul Aziz. Made with</span>
             <motion.div
-              className="mx-2 text-red-500"
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ repeat: Infinity, duration: 1.5 }}
             >
-              <FaHeart />
+              <FaHeart className="text-red-500" />
             </motion.div>
-            <span>by Abdul Aziz</span>
-          </p>
-          <p className="mt-2 text-gray-500 dark:text-gray-500 text-sm">
-            &copy; {new Date().getFullYear()} All rights reserved
-          </p>
+            <span>using React & Next.js</span>
+          </div>
         </div>
       </div>
     </footer>

@@ -5,45 +5,23 @@ import SectionHeading from "./section-heading";
 import { projectsData } from "@/lib/data";
 import Project from "./project";
 import { useSectionInView } from "@/lib/hooks";
-import { motion } from "framer-motion";
-import { FaArrowLeft, FaArrowRight, FaFilter } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
-// PaginationButton Component defined outside the main component
+// PaginationButton Component - Simplified
 const PaginationButton = ({ index, currentPage, onClick }) => {
   const isActive = currentPage === index;
   
   return (
-    <motion.button
+    <button
       onClick={onClick}
-      className={`relative w-8 h-8 mx-1 rounded-full overflow-hidden flex items-center justify-center`}
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.95 }}
+      className={`w-8 h-8 mx-1 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300 ${
+        isActive 
+          ? 'bg-[#016782] text-white' 
+          : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+      }`}
     >
-      {/* Background with gradient for active state */}
-      <motion.div 
-        className={`absolute inset-0 z-0 ${
-          isActive 
-            ? 'bg-gradient-to-r from-blue-500 to-indigo-600' 
-            : 'bg-gray-200 dark:bg-gray-700'
-        }`}
-        animate={{ 
-          scale: isActive ? [0.8, 1] : 1
-        }}
-        transition={{ 
-          duration: 0.3,
-          type: "spring", 
-          stiffness: 300, 
-          damping: 20 
-        }}
-      />
-      
-      {/* Number */}
-      <span className={`relative z-10 text-sm font-medium ${
-        isActive ? 'text-white' : 'text-gray-700 dark:text-gray-300'
-      }`}>
-        {index + 1}
-      </span>
-    </motion.button>
+      {index + 1}
+    </button>
   );
 };
 
@@ -87,121 +65,80 @@ export default function Projects() {
     }
   };
 
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
 
   return (
-    <section ref={ref} id="projects" className="scroll-mt-28 mb-28 px-4 max-w-6xl mx-auto">
+    <section ref={ref} id="projects" className="scroll-mt-28 mb-28 w-full px-4 max-w-7xl mx-auto">
       <div className="relative">
-        {/* Background decoration */}
-        <div className="absolute -top-40 -right-20 w-72 h-72 bg-purple-100 dark:bg-purple-900/20 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
-        <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-blue-100 dark:bg-blue-900/20 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
-        
         <SectionHeading>My Projects</SectionHeading>
         
-        <motion.p 
-          className="text-center text-gray-600 dark:text-gray-400 mb-10 max-w-3xl mx-auto"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
+        <p className="text-center text-gray-600 dark:text-gray-400 mb-10 max-w-3xl mx-auto">
           Explore my recent work and personal projects. Each project showcases my technical skills and 
           approach to problem-solving. Click on any project to learn more about the design process, 
           technologies used, and outcomes.
-        </motion.p>
+        </p>
         
-        {/* Filter tabs */}
+        {/* Filter tabs - Simplified */}
         <div className="flex flex-wrap justify-center gap-2 mb-12">
-          <div className="flex items-center mr-2 text-gray-500 dark:text-gray-400">
-            <FaFilter className="mr-2" />
-            <span className="text-sm font-medium">Filter by:</span>
-          </div>
+          <span className="text-sm font-medium text-gray-500 dark:text-gray-400 mr-2 self-center">Filter:</span>
           {allTags.map((tag, index) => (
-            <motion.button
+            <button
               key={index}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 
                 ${activeFilter === tag 
-                  ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20' 
+                  ? 'bg-[#016782] text-white' 
                   : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'}`}
               onClick={() => {
                 setActiveFilter(tag);
                 setCurrentPage(0);
               }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
               {tag}
-            </motion.button>
+            </button>
           ))}
         </div>
         
         {/* Projects grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="space-y-20 mt-4"
-        >
+        <div className="space-y-12 mt-4">
           {currentProjects.length > 0 ? (
             currentProjects.map((project, index) => (
               <React.Fragment key={index}>
-                <Project {...project} index={index} />
+                <Project {...project} index={currentPage * projectsPerPage + index} />
               </React.Fragment>
             ))
           ) : (
             <div className="text-center py-20">
-              <p className="text-gray-500 dark:text-gray-400">No projects match the selected filter.</p>
+              <div className="max-w-md mx-auto">
+                <div className="w-20 h-20 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-4xl">🔍</span>
+                </div>
+                <p className="text-gray-500 dark:text-gray-400 text-lg">No projects match the selected filter.</p>
+                <p className="text-gray-400 dark:text-gray-500 text-sm mt-2">Try selecting a different technology</p>
+              </div>
             </div>
           )}
-        </motion.div>
+        </div>
         
-        {/* Enhanced Pagination controls */}
+        {/* Pagination controls - Simplified */}
         {filteredProjects.length > projectsPerPage && (
-          <motion.div 
-            className="flex flex-col items-center gap-4 mt-16"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-          >
+          <div className="flex flex-col items-center gap-4 mt-16">
             {/* Page indicator text */}
             <div className="text-sm text-gray-500 dark:text-gray-400 mb-2">
               Page {currentPage + 1} of {totalPages}
             </div>
             
-            <div className="flex items-center gap-2 bg-white dark:bg-gray-800 p-1.5 rounded-full shadow-md">
-              {/* Previous button with gradient hover */}
-              <motion.button
+            <div className="flex items-center gap-2 bg-white dark:bg-gray-800 p-1.5 rounded-full shadow-md border border-[#016782]/20">
+              {/* Previous button */}
+              <button
                 onClick={prevPage}
                 disabled={currentPage === 0}
-                className={`relative overflow-hidden flex items-center justify-center w-10 h-10 rounded-full
+                className={`flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300
                   ${currentPage === 0 
                     ? 'text-gray-400 dark:text-gray-600 cursor-not-allowed' 
-                    : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+                    : 'text-gray-700 dark:text-gray-300 hover:text-[#016782] hover:bg-gray-100 dark:hover:bg-gray-700'
                   }`}
-                whileHover={currentPage !== 0 ? { scale: 1.05 } : {}}
-                whileTap={currentPage !== 0 ? { scale: 0.95 } : {}}
               >
-                {/* Hover background effect */}
-                {currentPage !== 0 && (
-                  <motion.div 
-                    className="absolute inset-0 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-full z-0"
-                    initial={{ opacity: 0 }}
-                    whileHover={{ opacity: 1 }}
-                    transition={{ duration: 0.2 }}
-                  />
-                )}
-                <span className="relative z-10">
-                  <FaArrowLeft />
-                </span>
-              </motion.button>
+                <FaArrowLeft />
+              </button>
               
               {/* Page number buttons */}
               <div className="flex items-center">
@@ -257,33 +194,20 @@ export default function Projects() {
                 })}
               </div>
               
-              {/* Next button with gradient hover */}
-              <motion.button
+              {/* Next button */}
+              <button
                 onClick={nextPage}
                 disabled={currentPage === totalPages - 1}
-                className={`relative overflow-hidden flex items-center justify-center w-10 h-10 rounded-full
+                className={`flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300
                   ${currentPage === totalPages - 1 
                     ? 'text-gray-400 dark:text-gray-600 cursor-not-allowed' 
-                    : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+                    : 'text-gray-700 dark:text-gray-300 hover:text-[#016782] hover:bg-gray-100 dark:hover:bg-gray-700'
                   }`}
-                whileHover={currentPage !== totalPages - 1 ? { scale: 1.05 } : {}}
-                whileTap={currentPage !== totalPages - 1 ? { scale: 0.95 } : {}}
               >
-                {/* Hover background effect */}
-                {currentPage !== totalPages - 1 && (
-                  <motion.div 
-                    className="absolute inset-0 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-full z-0"
-                    initial={{ opacity: 0 }}
-                    whileHover={{ opacity: 1 }}
-                    transition={{ duration: 0.2 }}
-                  />
-                )}
-                <span className="relative z-10">
-                  <FaArrowRight />
-                </span>
-              </motion.button>
+                <FaArrowRight />
+              </button>
             </div>
-          </motion.div>
+          </div>
         )}
       </div>
     </section>

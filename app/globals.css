@@ -4,22 +4,16 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Enhanced Font System for Portfolio */
-
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&display=swap');
+/* Syne Font System - Modern & Bold */
 
 /* Extend your existing CSS with these font enhancements */
 :root {
-  /* Modern font stack */
-  --font-sans: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-heading: 'Sora', sans-serif;
-  --font-body: 'DM Sans', sans-serif;
-  --font-display: 'Space Grotesk', sans-serif;
-  --font-mono: 'IBM Plex Mono', monospace;
+  /* Syne as primary font */
+  --font-sans: var(--font-syne), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: var(--font-syne), sans-serif;
+  --font-body: var(--font-syne), sans-serif;
+  --font-display: var(--font-syne), sans-serif;
+  --font-mono: var(--font-source-code-pro), 'SF Mono', 'Monaco', 'Cascadia Code', monospace;
   
   /* Font sizes with a more harmonious scale (1.2 ratio) */
   --text-xs: 0.75rem;    /* 12px */
@@ -58,33 +52,188 @@
   --tracking-widest: 0.1em;
 }
 
-/* Base font settings */
+/* Base font settings - Modern Figma Style */
 body {
   font-family: var(--font-body);
-  font-size: var(--text-base);
-  font-weight: var(--font-normal);
-  line-height: var(--leading-normal);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1, "liga" 1;
+  font-variant-ligatures: normal;
+  letter-spacing: 0.01em;
 }
 
-/* Heading styles */
+/* Heading styles - Eye-Catching Figma Style */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  font-weight: var(--font-bold);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tight);
-  margin-bottom: 0.8em;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.6em;
+  font-feature-settings: "kern" 1, "liga" 1;
 }
 
 h1 {
-  font-size: var(--text-5xl);
-  font-weight: var(--font-extrabold);
-  letter-spacing: var(--tracking-tighter);
+  font-size: 4rem;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1.05;
 }
 
 h2 {
-  font-size: var(--text-4xl);
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+}
+
+h3 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+h4 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+h5 {
+  font-size: 1.375rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+h6 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Paragraph styles - Clean & Modern */
+p {
+  margin-bottom: 1.25em;
+  line-height: 1.6;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: rgb(55, 65, 81);
+}
+
+.dark p {
+  color: rgb(209, 213, 219);
+}
+
+/* Strong and emphasis */
+strong, b {
+  font-weight: 700;
+  color: rgb(31, 41, 55);
+}
+
+.dark strong,
+.dark b {
+  color: rgb(243, 244, 246);
+}
+
+/* Responsive Typography - Perfectly Scaled */
+@media (max-width: 640px) {
+  body {
+    font-size: 15px;
+  }
+  
+  h1 {
+    font-size: 2.5rem !important;
+    letter-spacing: -0.03em !important;
+  }
+  
+  h2 {
+    font-size: 2rem !important;
+  }
+  
+  h3 {
+    font-size: 1.5rem !important;
+  }
+  
+  h4 {
+    font-size: 1.25rem !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  h1 {
+    font-size: 3rem !important;
+  }
+  
+  h2 {
+    font-size: 2.25rem !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    font-size: 16.5px;
+  }
+}
+
+@media (min-width: 1280px) {
+  body {
+    font-size: 17px;
+  }
+  
+  h1 {
+    font-size: 4.5rem !important;
+    letter-spacing: -0.05em !important;
+  }
+  
+  h2 {
+    font-size: 3.5rem !important;
+    letter-spacing: -0.045em !important;
+  }
+}
+
+@media (min-width: 1920px) {
+  body {
+    font-size: 18px;
+  }
+  
+  h1 {
+    font-size: 5.5rem !important;
+    letter-spacing: -0.055em !important;
+  }
+  
+  h2 {
+    font-size: 4rem !important;
+    letter-spacing: -0.05em !important;
+  }
+}
+
+/* Utility classes for enhanced typography */
+.text-display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+}
+
+.text-heading {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.text-body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.75;
+}
+
+.text-balance {
+  text-wrap: balance;
 }
 
 h3 {
@@ -220,26 +369,17 @@ nav,
   .display-small { font-size: var(--text-2xl); }
 }
 
-/* Text gradient enhancements */
+/* Text gradient enhancements - Simplified to solid colors */
 .text-gradient-primary {
-  background-image: linear-gradient(135deg, rgb(var(--color-primary)) 0%, rgb(var(--color-secondary)) 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: rgb(var(--color-primary));
 }
 
 .text-gradient-blue {
-  background-image: linear-gradient(135deg, #2563eb 0%, #38bdf8 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: rgb(var(--color-primary));
 }
 
 .text-gradient-purple {
-  background-image: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: rgb(var(--color-primary));
 }
 
 /* Extra enhancements */
@@ -261,15 +401,15 @@ nav,
   --font-sans: var(--font-inter);
   --font-heading: var(--font-poppins);
   
-  /* Color system - Light mode */
-  --color-primary: 79, 70, 229;        /* Indigo-600 */
-  --color-primary-light: 165, 180, 252; /* Indigo-300 */
-  --color-secondary: 168, 85, 247;     /* Purple-500 */
-  --color-accent: 59, 130, 246;        /* Blue-500 */
+  /* Color system - Light mode - Simplified */
+  --color-primary: 1, 103, 130;        /* #016782 - Main theme color */
+  --color-primary-light: 1, 103, 130;  /* #016782 - Same as primary */
+  --color-secondary: 1, 103, 130;      /* #016782 - Same as primary */
+  --color-accent: 1, 103, 130;         /* #016782 - Same as primary */
   
-  --color-success: 16, 185, 129;       /* Emerald-500 */
-  --color-warning: 245, 158, 11;       /* Amber-500 */
-  --color-error: 239, 68, 68;          /* Red-500 */
+  --color-success: 1, 103, 130;        /* Use primary for success */
+  --color-warning: 1, 103, 130;        /* Use primary for warning */
+  --color-error: 239, 68, 68;          /* Red for errors only */
   
   --color-background: 255, 255, 255;   /* White */
   --color-background-alt: 249, 250, 251; /* Gray-50 */
@@ -312,21 +452,21 @@ nav,
 
 /* Dark mode overrides */
 .dark {
-  /* Color system - Dark mode */
-  --color-primary: 129, 140, 248;       /* Indigo-400 */
-  --color-primary-light: 99, 102, 241;  /* Indigo-500 */
-  --color-secondary: 192, 132, 252;     /* Purple-400 */
-  --color-accent: 96, 165, 250;         /* Blue-400 */
+  /* Color system - Dark mode - Simplified */
+  --color-primary: 1, 103, 130;        /* #016782 - Same theme color */
+  --color-primary-light: 1, 103, 130;  /* #016782 - Same as primary */
+  --color-secondary: 1, 103, 130;      /* #016782 - Same as primary */
+  --color-accent: 1, 103, 130;         /* #016782 - Same as primary */
   
-  --color-success: 52, 211, 153;        /* Emerald-400 */
-  --color-warning: 251, 191, 36;        /* Amber-400 */
-  --color-error: 248, 113, 113;         /* Red-400 */
+  --color-success: 1, 103, 130;        /* Use primary for success */
+  --color-warning: 1, 103, 130;        /* Use primary for warning */
+  --color-error: 248, 113, 113;        /* Red for errors only */
   
-  --color-background: 17, 24, 39;       /* Gray-900 */
-  --color-background-alt: 31, 41, 55;   /* Gray-800 */
-  --color-foreground: 243, 244, 246;    /* Gray-100 */
-  --color-muted: 156, 163, 175;         /* Gray-400 */
-  --color-muted-light: 75, 85, 99;      /* Gray-600 */
+  --color-background: 17, 24, 39;      /* Gray-900 */
+  --color-background-alt: 31, 41, 55;  /* Gray-800 */
+  --color-foreground: 243, 244, 246;   /* Gray-100 */
+  --color-muted: 156, 163, 175;        /* Gray-400 */
+  --color-muted-light: 75, 85, 99;     /* Gray-600 */
   
   /* UI Elements - Dark Mode */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
@@ -340,6 +480,11 @@ nav,
   --toaster-border: #374151;
 }
 
+/* Dark mode body background adjustments */
+.dark body::before {
+  opacity: 0.15;
+}
+
 /* ======== BASE STYLES ======== */
 @layer base {
   html {
@@ -350,12 +495,30 @@ nav,
   
   body {
     min-height: 100vh;
+    position: relative;
     background-color: rgb(var(--color-background));
     color: rgb(var(--color-foreground));
     line-height: 1.6;
     font-family: var(--font-sans);
     transition: background-color var(--transition-normal), color var(--transition-normal);
     overflow-x: hidden;
+  }
+  
+  /* Background pattern for light mode */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/formbg.png');
+    background-repeat: repeat-y;
+    background-size: 100% auto;
+    background-position: center top;
+    opacity: 0.4;
+    z-index: -1;
+    pointer-events: none;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -483,7 +646,7 @@ nav,
   input, textarea, select {
     width: 100%;
     padding: 0.75rem;
-    border: 1px solid rgba(var(--color-muted-light), 0.5);
+    border: 1px solid rgba(var(--color-primary), 0.3);
     border-radius: var(--border-radius-md);
     background-color: rgb(var(--color-background));
     color: rgb(var(--color-foreground));
@@ -492,7 +655,7 @@ nav,
   
   input:focus, textarea:focus, select:focus {
     outline: none;
-    border-color: rgba(var(--color-primary), 0.5);
+    border-color: rgba(var(--color-primary), 0.8);
     box-shadow: 0 0 0 3px rgba(var(--color-primary), 0.1);
   }
   
@@ -523,19 +686,12 @@ nav,
     background: rgba(var(--color-background), 0.7);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(var(--color-muted-light), 0.2);
+    border: 1px solid rgba(var(--color-primary), 0.2);
   }
   
-  /* Text gradient */
+  /* Text gradient - Simplified to solid color */
   .text-gradient {
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-image: linear-gradient(
-      135deg, 
-      rgb(var(--color-primary)) 0%, 
-      rgb(var(--color-secondary)) 100%
-    );
+    color: rgb(var(--color-primary));
   }
   
   /* Animated underline */
@@ -706,19 +862,13 @@ nav,
   );
 }
 
-/* Gradient backgrounds */
+/* Gradient backgrounds - Simplified to solid colors */
 .bg-gradient-primary {
-  background: linear-gradient(135deg, 
-    rgba(var(--color-primary), 0.1) 0%, 
-    rgba(var(--color-secondary), 0.1) 100%
-  );
+  background: rgba(var(--color-primary), 0.05);
 }
 
 .bg-gradient-accent {
-  background: linear-gradient(135deg, 
-    rgba(var(--color-accent), 0.1) 0%, 
-    rgba(var(--color-primary), 0.1) 100%
-  );
+  background: rgba(var(--color-primary), 0.05);
 }
 
 /* ======== CUSTOM SCROLLBAR ======== */
