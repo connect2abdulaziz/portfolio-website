@@ -96,129 +96,77 @@ export default function ChatWidget({ isOpen, onToggle }: ChatWidgetProps) {
     }
   };
 
-  const handleClearChat = () => {
-    setMessages([]);
-    const welcomeMessage = initializeChatSession();
-    setMessages([{
-      type: 'system',
-      content: welcomeMessage,
-      timestamp: new Date().toLocaleTimeString()
-    }]);
-  };
-
-  // Quick suggestion buttons
-  const quickSuggestions = [
-    "What are Abdul's main skills?",
-    "Tell me about his projects",
-    "How can I contact him?",
-    "What AI technologies does he use?"
-  ];
-
   return (
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.8, y: 20 }}
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.8, y: 20 }}
-          transition={{ duration: 0.3, type: "spring", stiffness: 300 }}
-          className="fixed  bottom-4 right-4 z-50 w-80 h-[calc(100vh-100px)] bg-white dark:bg-gray-900 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden flex flex-col"
+          exit={{ opacity: 0, scale: 0.95, y: 20 }}
+          transition={{ duration: 0.2 }}
+          className="fixed bottom-[6px] right-4 z-50 w-80 sm:w-96 h-[500px] sm:h-[600px] max-h-[calc(100vh-120px)] bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200/50 dark:border-gray-700/50 overflow-hidden flex flex-col backdrop-blur-xl"
         >
-          {/* Chat Widget Header */}
-          <div className="bg-[#016782] p-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-                  <MessageCircle size={16} className="text-white" />
-                </div>
-                <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse" />
-              </div>
-              <div>
-                <h3 className="text-white font-semibold text-sm">AI Assistant</h3>
-                <p className="text-white/80 text-xs">Ask me about Abdul</p>
-              </div>
-            </div>
+          {/* Minimal Header */}
+          <div className="bg-gradient-to-r from-[#016782] to-[#015165] px-4 py-3 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <button
-                onClick={handleClearChat}
-                className="text-white/70 hover:text-white text-xs px-2 py-1 rounded transition-colors"
-                title="Clear chat"
-              >
-                Clear
-              </button>
-              <button
-                onClick={onToggle}
-                className="text-white/70 hover:text-white transition-colors"
-                title="Close chat"
-              >
-                <X size={18} />
-              </button>
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+              <span className="text-white font-medium text-sm">AI Assistant</span>
             </div>
+            <button
+              onClick={onToggle}
+              className="text-white/80 hover:text-white transition-colors p-1 hover:bg-white/10 rounded-lg"
+            >
+              <X size={18} />
+            </button>
           </div>
           
-          {/* Messages Area */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50 dark:bg-gray-800/50">
+          {/* Messages Area - Simplified */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-3">
             {messages.map((message, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.2 }}
                 className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`max-w-[80%] rounded-lg p-3 text-sm ${
+                  className={`max-w-[85%] rounded-2xl px-4 py-2.5 ${
                     message.type === 'user'
                       ? 'bg-[#016782] text-white'
-                      : message.type === 'ai'
-                      ? 'bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-[#016782]/30'
-                      : 'bg-[#016782]/10 text-[#016782] dark:text-white border border-[#016782]/30'
+                      : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200'
                   }`}
                 >
-                  {message.type === 'ai' && (
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="w-5 h-5 bg-[#016782] rounded-full flex items-center justify-center">
-                        <span className="text-white text-xs">🤖</span>
-                      </div>
-                      <span className="text-xs text-gray-500 dark:text-gray-400">AI Assistant</span>
-                    </div>
-                  )}
-                  <pre className="whitespace-pre-wrap font-sans text-sm">
+                  <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed">
                     {message.content}
                   </pre>
-                  <div className="text-xs opacity-60 mt-1">
-                    {message.timestamp}
-                  </div>
                 </div>
               </motion.div>
             ))}
             
-            {/* Typing Indicator */}
+            {/* Typing Indicator - Simplified */}
             {isTyping && (
               <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 className="flex justify-start"
               >
-                <div className="bg-white dark:bg-gray-700 border border-[#016782]/30 rounded-lg p-3 flex items-center gap-2">
-                  <div className="w-5 h-5 bg-[#016782] rounded-full flex items-center justify-center">
-                    <span className="text-white text-xs">🤖</span>
-                  </div>
+                <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl px-4 py-3 flex items-center gap-2">
                   <div className="flex space-x-1">
                     <motion.div
-                      animate={{ opacity: [0.3, 1, 0.3] }}
-                      transition={{ duration: 1, repeat: Infinity, delay: 0 }}
-                      className="w-1.5 h-1.5 bg-[#016782] rounded-full"
+                      animate={{ y: [0, -6, 0] }}
+                      transition={{ duration: 0.6, repeat: Infinity, delay: 0 }}
+                      className="w-2 h-2 bg-[#016782] rounded-full"
                     />
                     <motion.div
-                      animate={{ opacity: [0.3, 1, 0.3] }}
-                      transition={{ duration: 1, repeat: Infinity, delay: 0.2 }}
-                      className="w-1.5 h-1.5 bg-[#016782] rounded-full"
+                      animate={{ y: [0, -6, 0] }}
+                      transition={{ duration: 0.6, repeat: Infinity, delay: 0.15 }}
+                      className="w-2 h-2 bg-[#016782] rounded-full"
                     />
                     <motion.div
-                      animate={{ opacity: [0.3, 1, 0.3] }}
-                      transition={{ duration: 1, repeat: Infinity, delay: 0.4 }}
-                      className="w-1.5 h-1.5 bg-[#016782] rounded-full"
+                      animate={{ y: [0, -6, 0] }}
+                      transition={{ duration: 0.6, repeat: Infinity, delay: 0.3 }}
+                      className="w-2 h-2 bg-[#016782] rounded-full"
                     />
                   </div>
                 </div>
@@ -227,52 +175,28 @@ export default function ChatWidget({ isOpen, onToggle }: ChatWidgetProps) {
             
             <div ref={messagesEndRef} />
           </div>
-
-          {/* Quick Suggestions */}
-          {messages.length === 1 && (
-            <div className="px-4 py-2 border-t border-gray-200 dark:border-gray-700">
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">Quick questions:</p>
-              <div className="flex flex-wrap gap-1">
-                {quickSuggestions.slice(0, 2).map((suggestion, index) => (
-                  <button
-                    key={index}
-                    onClick={() => {
-                      setInput(suggestion);
-                      setTimeout(handleSendMessage, 100);
-                    }}
-                    className="text-xs px-2 py-1 bg-[#016782]/10 dark:bg-[#016782]/20 text-[#016782] rounded-full hover:bg-[#016782]/20 dark:hover:bg-[#016782]/30 transition-colors"
-                  >
-                    {suggestion}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
           
-          {/* Input Area */}
-          <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
-            <div className="flex items-center gap-2">
+          {/* Input Area - Minimal */}
+          <div className="p-4 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-200/50 dark:border-gray-700/50">
+            <div className="flex items-center gap-2 bg-white dark:bg-gray-800 rounded-xl p-2 shadow-sm border border-gray-200/50 dark:border-gray-700/50">
               <input
                 ref={inputRef}
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Ask me anything about Abdul..."
-                className="flex-1 px-3 py-2 text-sm border border-[#016782]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#016782]/40 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                placeholder="Ask me anything..."
+                className="flex-1 px-3 py-2 text-sm bg-transparent focus:outline-none text-gray-900 dark:text-white placeholder-gray-400"
                 disabled={isTyping}
               />
               <button
                 onClick={handleSendMessage}
                 disabled={!input.trim() || isTyping}
-                className="p-2 bg-[#016782] text-white hover:text-white rounded-lg hover:bg-[#014d5f] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="p-2 bg-[#016782] text-white hover:text-white rounded-lg hover:bg-[#015165] disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm"
               >
-                <Send size={16} />
+                <Send size={18} />
               </button>
             </div>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-              Press Enter to send • Powered by AI
-            </p>
           </div>
         </motion.div>
       )}

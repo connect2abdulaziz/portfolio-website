@@ -157,11 +157,11 @@ export default function Header({
                     {/* Portfolio Button */}
                     <button
                       onClick={() => onViewModeChange('portfolio')}
-                      className={`relative flex items-center gap-2 px-4 dark:bg-transparent py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 z-10 ${viewMode === 'portfolio'
-                        ? 'text-white'
+                      className={`relative flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 z-10 ${viewMode === 'portfolio'
+                        ? 'text-white !text-white'
                         : theme === "light"
-                          ? "text-gray-600 bg-transparent hover:text-gray-800"
-                          : "text-gray-400 hover:text-gray-200"
+                          ? "text-gray-600 bg-white hover:text-gray-800"
+                          : "text-gray-400 bg-gray-900 hover:text-gray-200"
                         }`}
                     >
                       <motion.div
@@ -170,10 +170,11 @@ export default function Header({
                           rotate: viewMode === 'portfolio' ? 5 : 0
                         }}
                         transition={{ duration: 0.3 }}
+                        className={viewMode === 'portfolio' ? 'text-white' : ''}
                       >
-                        <User size={16} />
+                        <User size={16} className={viewMode === 'portfolio' ? 'text-white' : ''} />
                       </motion.div>
-                      <span className="hidden lg:inline font-medium">Portfolio</span>
+                      <span className={`hidden lg:inline font-medium ${viewMode === 'portfolio' ? 'text-white' : ''}`}>Portfolio</span>
 
                       {/* Active indicator dot */}
                       {viewMode === 'portfolio' && (
@@ -188,11 +189,11 @@ export default function Header({
                     {/* Terminal Button */}
                     <button
                       onClick={() => onViewModeChange('terminal')}
-                      className={`relative flex dark:bg-transparent items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 z-10 ${viewMode === 'terminal'
-                        ? 'text-white'
+                      className={`relative flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 z-10 ${viewMode === 'terminal'
+                        ? 'text-white !text-white'
                         : theme === "light"
-                          ? "text-gray-600 bg-transparent hover:text-gray-800"
-                          : "text-gray-400  hover:text-gray-200"
+                          ? "text-gray-600 bg-white hover:text-gray-800"
+                          : "text-gray-400 bg-gray-900 hover:text-gray-200"
                         }`}
                     >
                       <motion.div
@@ -201,10 +202,11 @@ export default function Header({
                           rotate: viewMode === 'terminal' ? -5 : 0
                         }}
                         transition={{ duration: 0.3 }}
+                        className={viewMode === 'terminal' ? 'text-white' : ''}
                       >
-                        <Monitor size={16} />
+                        <Monitor size={16} className={viewMode === 'terminal' ? 'text-white' : ''} />
                       </motion.div>
-                      <span className="hidden lg:inline font-medium">Terminal</span>
+                      <span className={`hidden lg:inline font-medium ${viewMode === 'terminal' ? 'text-white' : ''}`}>Terminal</span>
 
                       {/* Active indicator dot */}
                       {viewMode === 'terminal' && (
@@ -254,7 +256,7 @@ export default function Header({
                       repeatType: "reverse"
                     }}
                   >
-                    <MessageCircle size={20} />
+                    <MessageCircle size={20} className={showChatWidget ? '!text-white hover:!text-white' : 'text-black hover:text-white dark:text-white'} />
                   </motion.div>
 
                   {/* AI indicator dots */}
@@ -322,14 +324,13 @@ export default function Header({
             {/* Mobile menu button */}
             <div className="md:hidden flex items-center">
               <button
-                className={`flex flex-col items-center justify-center w-10 h-10 rounded-md focus:outline-none ${theme === "light" ? "text-gray-900" : "text-white"
-                  }`}
+                className="flex flex-col items-center justify-center w-10 h-10 rounded-md bg-[#016782] hover:bg-[#015165] focus:outline-none transition-colors shadow-md"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 aria-label="Toggle menu"
               >
-                <span className={`block h-0.5 w-6 ${theme === "light" ? "bg-[#016782]" : "bg-white"} transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-1.5' : 'mb-1.5'}`}></span>
-                <span className={`block h-0.5 w-6 ${theme === "light" ? "bg-[#016782]" : "bg-white"} transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : 'mb-1.5'}`}></span>
-                <span className={`block h-0.5 w-6 ${theme === "light" ? "bg-[#016782]" : "bg-white"} transition-all duration-300 ${mobileMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}></span>
+                <span className={`block h-[2.5px] w-6 rounded-full bg-white transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-[7px]' : 'mb-1.5'}`}></span>
+                <span className={`block h-[2.5px] w-6 rounded-full bg-white transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : 'mb-1.5'}`}></span>
+                <span className={`block h-[2.5px] w-6 rounded-full bg-white transition-all duration-300 ${mobileMenuOpen ? '-rotate-45 -translate-y-[7px]' : ''}`}></span>
               </button>
             </div>
           </div>
@@ -370,12 +371,12 @@ export default function Header({
                         setMobileMenuOpen(false);
                       }}
                       className={`flex items-center justify-center gap-2 flex-1 py-3 rounded-md text-sm font-medium transition-all duration-300 ${viewMode === 'portfolio'
-                        ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
-                        : 'text-gray-600 dark:text-gray-400'
+                        ? 'bg-[#016782] !text-white shadow-sm'
+                        : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-400'
                         }`}
                     >
-                      <User size={16} />
-                      Portfolio View
+                      <User size={16} className={viewMode === 'portfolio' ? '!text-white' : ''} />
+                      <span className={viewMode === 'portfolio' ? '!text-white' : ''}>Portfolio View</span>
                     </button>
                     <button
                       onClick={() => {
@@ -383,12 +384,12 @@ export default function Header({
                         setMobileMenuOpen(false);
                       }}
                       className={`flex items-center justify-center gap-2 flex-1 py-3 rounded-md text-sm font-medium transition-all duration-300 ${viewMode === 'terminal'
-                        ? 'bg-[#016782] text-white shadow-sm'
-                        : 'text-gray-600 dark:text-gray-400'
+                        ? 'bg-[#016782] !text-white shadow-sm'
+                        : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-400'
                         }`}
                     >
-                      <Monitor size={16} />
-                      Terminal Mode
+                      <Monitor size={16} className={viewMode === 'terminal' ? '!text-white' : ''} />
+                      <span className={viewMode === 'terminal' ? '!text-white' : ''}>Terminal Mode</span>
                     </button>
                   </div>
                 </div>
@@ -403,14 +404,14 @@ export default function Header({
                       setMobileMenuOpen(false);
                     }}
                     className={`w-full flex items-center justify-center gap-2 py-3 rounded-md text-sm font-medium transition-all duration-300 ${showChatWidget
-                      ? 'bg-[#016782] text-white'
+                      ? 'bg-[#016782] !text-white'
                       : theme === "light"
-                        ? "bg-gray-100 text-gray-700 hover:bg-[#016782]/10"
-                        : "bg-gray-800 text-gray-300 hover:bg-[#016782]/20"
+                        ? "bg-white text-gray-700 hover:bg-gray-50"
+                        : "bg-gray-900 text-gray-300 hover:bg-gray-800"
                       }`}
                   >
-                    <MessageCircle size={16} />
-                    {showChatWidget ? 'Close AI Chat' : 'Open AI Chat'}
+                    <MessageCircle size={16} className={showChatWidget ? '!text-white' : ''} />
+                    <span className={showChatWidget ? '!text-white' : ''}>{showChatWidget ? 'Close AI Chat' : 'Open AI Chat'}</span>
                   </button>
                 </div>
               )}
