@@ -67,7 +67,7 @@ export default function Intro() {
     <section
       ref={ref}
       id="home"
-      className="relative min-h-[80vh] flex flex-col items-center justify-center w-full max-w-7xl mx-auto text-center px-4 sm:px-6 mb-16 sm:mb-0 scroll-mt-[100rem]"
+      className="relative min-h-[80vh] flex flex-col items-center justify-center w-full max-w-7xl mx-auto text-center px-4 sm:px-6 mb-16 sm:mb-0 pt-8 scroll-mt-[100rem]"
     >
       <div className="relative z-10 flex flex-col items-center">
         {/* Profile image - Simplified */}
